@@ -7,6 +7,7 @@ local L = AceLibrary("AceLocale-2.2"):new("BigWigs"..boss)
 
 local mcTime
 local frostBlastTime
+local frostboltcounter
 
 ----------------------------
 --      Localization      --
@@ -100,6 +101,9 @@ L:RegisterTranslations("enUS", function() return {
 	
 	frostbolt_interrupt1 = "Kel'Thuzad Hits (.+)",
 	
+	frostbolt_grp1 = "GRP 11111 INTERRUPT 11111",
+	frostbolt_grp2 = "GRP 22222 INTERRUPT 22222",
+	frostbolt_grp3 = "GRP 33333 INTERRUPT 33333",
 
 	you = "You",
 	are = "are",
@@ -129,9 +133,7 @@ function BigWigsKelThuzad:OnEnable()
 
 	frostBlastTime = nil
 	mcTime = nil
-
-	self:RegisterEvent("COMBATHITOTHEROTHER")
-	self:RegisterEvent("COMBATHITOTHERSELF")
+	frostboltcounter = 0
 
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL")
 	self:RegisterEvent("CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE")
@@ -205,21 +207,10 @@ end
 
 function BigWigsKelThuzad:CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE( msg )
 	if string.find(msg, L["frostbolt_trigger"]) then
+		frostboltcounter = frostboltcounter + 1
 		self:TriggerEvent("BigWigs_SendSync", "KelFrostbolt")
 --	if string.find(msg, L["fissure_trigger"] then
 --		self:TriggerEvent("BigWigs_SendSync", "KelFizzure")
-	end
-end
-
-function BigWigsKelThuzad:COMBATHITOTHEROTHER( msg )
-	if string.find(msg, L["frostbolt_interrupt1"]) then
-		self:TriggerEvent("BigWigs_SendSync", "KelFrostboltInterrupt")
-	end
-end
-
-function BigWigsKelThuzad:COMBATHITOTHERSELF( msg )
-	if string.find(msg, L["frostbolt_interrupt1"]) then
-		self:TriggerEvent("BigWigs_SendSync", "KelFrostboltInterrupt")
 	end
 end
 
@@ -244,10 +235,13 @@ function BigWigsKelThuzad:BigWigs_RecvSync(sync, rest, nick)
 	elseif sync == "KelFizzure" and self.db.profile.fissure then
 		self:TriggerEvent("BigWigs_Message", L["fissure_warning"], "Important")
 	elseif sync == "KelFrostbolt" and self.db.profile.frostbolt then
-		self:TriggerEvent("BigWigs_Message", L["frostbolt_warning"], "Personal")
-		if self.db.profile.frostboltbar then
-			self:TriggerEvent("BigWigs_StartBar", self, L["frostbolt_bar"], 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
-		end
+		if mod(frostboltcounter+2,3)==0 then
+			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp1"], "Personal")
+		elseif mod(frostboltcounter+1,3)==0 then
+			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp2"], "Personal")
+		elseif mod(frostboltcounter,3)==0 then
+			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp3"], "Personal")
+		
 	elseif sync == "KelMindControl" and self.db.profile.mc then
 		self:TriggerEvent("BigWigs_Message", L["mc_warning"], "Urgent")
 		self:TriggerEvent("BigWigs_StartBar", self, L["mc_bar"], 60, "Interface\\Icons\\Inv_Belt_18")
