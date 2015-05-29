@@ -241,7 +241,7 @@ function BigWigsKelThuzad:BigWigs_RecvSync(sync, rest, nick)
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp2"], "Personal")
 		elseif mod(frostboltcounter,3)==0 then
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp3"], "Personal")
-		
+		end
 	elseif sync == "KelMindControl" and self.db.profile.mc then
 		self:TriggerEvent("BigWigs_Message", L["mc_warning"], "Urgent")
 		self:TriggerEvent("BigWigs_StartBar", self, L["mc_bar"], 60, "Interface\\Icons\\Inv_Belt_18")
@@ -268,4 +268,3 @@ function BigWigsKelThuzad:Affliction( msg )
 		end
 	end
 end
-
