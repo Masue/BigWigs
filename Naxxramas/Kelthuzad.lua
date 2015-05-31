@@ -237,10 +237,16 @@ function BigWigsKelThuzad:BigWigs_RecvSync(sync, rest, nick)
 	elseif sync == "KelFrostbolt" and self.db.profile.frostbolt then
 		if mod(frostboltcounter+2,3)==0 then
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp1"], "Personal")
+			self:TriggerEvent("BigWigs_StartBar", self, "Frostbolt Grp 11111", 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
+
 		elseif mod(frostboltcounter+1,3)==0 then
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp2"], "Personal")
+			self:TriggerEvent("BigWigs_StartBar", self, "Frostbolt Grp 22222", 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
+
 		elseif mod(frostboltcounter,3)==0 then
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp3"], "Personal")
+			self:TriggerEvent("BigWigs_StartBar", self, "GFrostbolt Grp 33333", 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
+
 		end
 	elseif sync == "KelMindControl" and self.db.profile.mc then
 		self:TriggerEvent("BigWigs_Message", L["mc_warning"], "Urgent")
