@@ -245,7 +245,7 @@ function BigWigsKelThuzad:BigWigs_RecvSync(sync, rest, nick)
 
 		elseif mod(frostboltcounter,3)==0 then
 			self:TriggerEvent("BigWigs_Message", L["frostbolt_grp3"], "Personal")
-			self:TriggerEvent("BigWigs_StartBar", self, "GFrostbolt Grp 33333", 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
+			self:TriggerEvent("BigWigs_StartBar", self, "Frostbolt Grp 33333", 2, "Interface\\Icons\\Spell_Frost_FrostBolt02")
 
 		end
 	elseif sync == "KelMindControl" and self.db.profile.mc then
@@ -253,7 +253,7 @@ function BigWigsKelThuzad:BigWigs_RecvSync(sync, rest, nick)
 		self:TriggerEvent("BigWigs_StartBar", self, L["mc_bar"], 60, "Interface\\Icons\\Inv_Belt_18")
 	end
 end
-
+☻
 function BigWigsKelThuzad:Affliction( msg )
 	if string.find(msg, L["detonate_trigger"]) then
 		local _,_, dplayer, dtype = string.find( msg, L["detonate_trigger"])
